@@ -568,6 +568,9 @@ Orchestrator does not test directly. It delegates to specialist agent files (lis
 | `cloud-security.md` | Post-SSRF cloud metadata/role exploitation | No | Only if ssrf-hunter finds IMDS access |
 | `mobile-pentester.md` | Mobile app decompile, API extraction, cert-pinning bypass | Physical/rooted device | Only if mobile app in-scope |
 | `llm-redteam.md` | Prompt injection, tool abuse, RAG poisoning | Depends on feature | Only if AI/LLM features present |
+| `secrets-hunter.md` | Exposed secrets, leaked keys/tokens, `.git`/`.env` exposure, open cloud buckets, dorking | No | Always (recon) |
+| `auth-hunter.md` | Auth **flows**: OAuth/OIDC, SAML, SSO, MFA/2FA bypass, reset/registration, session fixation | A/B (+ IdP) | If login/SSO/OAuth |
+| `cve-hunter.md` | Known-CVE / n-day: fingerprint → CVE map → non-destructive validation | No (some need auth) | Always (light) |
 
 ### 5.2 Coordination Rules (adapted from swarm-orchestrator pattern)
 

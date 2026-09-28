@@ -51,7 +51,7 @@ See `_scope-guard.md` for full enforcement rules, OPSEC tagging, autonomy rules,
 
 **At startup** (per `plan.md` → Agent Initialization Protocol): show the banner (`tools/banner.txt`), ask the language once (**EN default / FR**), then ask for the engagement folder. Technical output (endpoints, payloads, CVE, finding-card fields) stays English in both languages.
 
-**For any engagement**: read `plan.md` first (folder-path onboarding), then delegate to the 12 specialist agents:
-`subdomain-takeover.md`, `web-hunter.md`, `api-security.md`, `graphql-hunter.md`, `bizlogic-hunter.md`, `ssrf-hunter.md`, `jwt-cracker.md`, `exploit-chainer.md`, `poc-validator.md`, `cloud-security.md`, `mobile-pentester.md`, `llm-redteam.md`.
+**For any engagement**: read `plan.md` first (folder-path onboarding), then delegate to the 15 specialist agents:
+`subdomain-takeover.md`, `web-hunter.md`, `api-security.md`, `graphql-hunter.md`, `bizlogic-hunter.md`, `ssrf-hunter.md`, `jwt-cracker.md`, `exploit-chainer.md`, `poc-validator.md`, `cloud-security.md`, `mobile-pentester.md`, `llm-redteam.md`, `secrets-hunter.md`, `auth-hunter.md`, `cve-hunter.md`.
 
 **Do not proceed without reading `plan.md` and `_scope-guard.md`.**

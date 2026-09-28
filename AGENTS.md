@@ -31,6 +31,9 @@ Keep one row per agent. Ref column points to the file.
 | **cloud-security** | cloud | Post-SSRF cloud metadata exploitation, IAM role enumeration | No | Only if SSRF→IMDS confirmed | active | `cloud-security.md` |
 | **mobile-pentester** | mobile | Android/iOS decompile, cert-pinning bypass, API extraction | Physical device + A/B | Only if mobile in-scope | active | `mobile-pentester.md` |
 | **llm-redteam** | exploit | Prompt injection, tool abuse, RAG poisoning | A/B if behind auth | Only if LLM features | active | `llm-redteam.md` |
+| **secrets-hunter** | recon | Exposed secrets, leaked keys/tokens, `.git`/`.env` exposure, open cloud buckets, dorking | No | Always | active | `secrets-hunter.md` |
+| **auth-hunter** | web | OAuth/OIDC, SAML, SSO, MFA/2FA bypass, reset/registration flows, session fixation | A/B (+ IdP) | If login/SSO/OAuth | active | `auth-hunter.md` |
+| **cve-hunter** | scan | Known-CVE / n-day: fingerprint → CVE map → non-destructive validation | No (some need auth) | Always (light) | active | `cve-hunter.md` |
 
 ---
 
@@ -46,8 +49,12 @@ When two agents could test the same thing, this table says **who tests first** a
 | Mass assignment (extra fields) | `api-security` | `bizlogic-hunter` (only if field has biz impact) |
 | Escalation as workflow issue (state-specific) | `bizlogic-hunter` | — |
 | Escalation as access-control gap (static) | `web-hunter` OR `api-security` | `bizlogic-hunter` |
+| Exposed secrets / leaked keys / open buckets | `secrets-hunter` | any agent that stumbles on one (hands off, doesn't re-test); `cloud-security` exploits a found cloud key |
+| Auth **flow** (OAuth/OIDC, SAML, SSO, MFA, reset/registration) | `auth-hunter` | `jwt-cracker` (token crypto) · `api-security` (API scope) |
+| Token crypto / session-token forgery | `jwt-cracker` | `auth-hunter` (signals it from the flow) |
+| Known CVE / n-day in off-the-shelf components | `cve-hunter` | `web-hunter` (JS-lib CVEs via `retire-js` — first to run owns) |
 
-**Rule of thumb**: If the bug is "the check is missing," it's a hunter's job. If the bug is "a state transition breaks the check," it's `bizlogic-hunter`'s job.
+**Rule of thumb**: If the bug is "the check is missing," it's a hunter's job. If the bug is "a state transition breaks the check," it's `bizlogic-hunter`'s job. If it's "the check exists but the multi-step *flow* around it breaks," it's `auth-hunter`'s job.
 
 ---
 
@@ -60,6 +67,10 @@ When two agents could test the same thing, this table says **who tests first** a
 | `cloud-security` | SSRF→IMDS access confirmed | `ssrf-hunter` must find working SSRF first |
 | `mobile-pentester` | Mobile app in-scope | Check program scope; requires physical device |
 | `llm-redteam` | LLM features present (chat, generation, RAG) | Explore app; look for AI-powered features |
+| `auth-hunter` | App has login / OAuth / SAML / SSO / MFA | Look for a login, "Sign in with…", an SSO redirect, or a 2FA step |
+| `cve-hunter` | Always (light fingerprint); deep only if a version maps to a CVE | `whatweb` / nuclei tech-detect on alive hosts |
+
+(`secrets-hunter` is **always on** in recon — no condition, like `web-hunter`.)
 
 If condition not met: **skip the agent, note in journal.md as "N/A — [reason]"**
 
@@ -68,9 +79,9 @@ If condition not met: **skip the agent, note in journal.md as "N/A — [reason]"
 ## Agent Activation Priority (Feature-First)
 
 1. **High-value features first** (cross-tenant, payments, auth, admin, custom code)
-   - Activate: `web-hunter`, `api-security`, `bizlogic-hunter`, `jwt-cracker`
+   - Activate: `web-hunter`, `api-security`, `bizlogic-hunter`, `jwt-cracker`, `auth-hunter` (if login/SSO/OAuth)
 2. **Discovery & infrastructure**
-   - Activate: `subdomain-takeover`, `ssrf-hunter`
+   - Activate: `subdomain-takeover`, `secrets-hunter`, `ssrf-hunter`, `cve-hunter` (after fingerprint)
 3. **Specialized** (conditional)
    - Activate: `graphql-hunter` (if endpoint), `llm-redteam` (if features), `mobile-pentester` (if app), `cloud-security` (if SSRF)
 4. **Post-hunting**

@@ -11,7 +11,7 @@
 
 # k0n hunter
 
-An autonomous, multi-agent **bug-bounty / VDP framework** for [Claude Code](https://claude.com/claude-code). One orchestrator delegates to **12 specialist agents**, hunts end-to-end from recon to a structured deliverable, and reports back in a clean triage summary. Bilingual: **English by default, French on request**.
+An autonomous, multi-agent **bug-bounty / VDP framework** for [Claude Code](https://claude.com/claude-code). One orchestrator delegates to **15 specialist agents**, hunts end-to-end from recon to a structured deliverable, and reports back in a clean triage summary. Bilingual: **English by default, French on request**.
 
 ![License](https://img.shields.io/badge/license-MIT-green) ![Runs on](https://img.shields.io/badge/runs%20on-Claude%20Code-blue) ![Languages](https://img.shields.io/badge/lang-EN%20%C2%B7%20FR-lightgrey)
 
@@ -27,7 +27,7 @@ It enforces hard limits (in `_scope-guard.md`): in-scope only, **no DoS**, no re
 
 ## What it is
 
-- **Orchestrator + 12 specialists.** A feature-first hunt that routes each attack surface to the agent that owns it, coordinates handoffs, chains findings, and validates before reporting.
+- **Orchestrator + 15 specialists.** A feature-first hunt that routes each attack surface to the agent that owns it, coordinates handoffs, chains findings, and validates before reporting.
 - **Autonomous middle.** After the initial "go" it never stalls: anything it can't do (missing creds, a tool that needs Burp, a destructive step) is skipped, logged, and surfaced at the end — the run always reaches a deliverable.
 - **Structured output.** Every finding is a **finding card** (`ID · Title · Severity · Endpoint · Evidence · Status · Preconditions · Chains-with`), routed into a **6-tier deliverable** (`findings/FINDINGS.md`), plus a scannable chat summary.
 
@@ -49,7 +49,7 @@ Init (banner + language + scope)
    6-tier deliverable  +  chat triage summary
 ```
 
-## The 12 specialist agents
+## The 15 specialist agents
 
 | Agent | Phase | Specialty |
 |-------|-------|-----------|
@@ -65,6 +65,9 @@ Init (banner + language + scope)
 | `cloud-security` | cloud | Post-SSRF metadata exploitation, IAM enumeration |
 | `mobile-pentester` | mobile | Android/iOS decompile, cert-pinning bypass, API extraction |
 | `llm-redteam` | exploit | Prompt injection, tool abuse, RAG poisoning |
+| `secrets-hunter` | recon | Exposed secrets, leaked keys, `.git`/`.env` exposure, open cloud buckets, dorking |
+| `auth-hunter` | web | OAuth/OIDC, SAML, SSO, MFA/2FA bypass, reset/registration flows, session fixation |
+| `cve-hunter` | scan | Known-CVE / n-day: fingerprint → CVE map → non-destructive validation |
 
 Routing, ownership of overlapping domains, and conditional activation live in [`AGENTS.md`](AGENTS.md).
 
@@ -141,7 +144,7 @@ CLAUDE.md            always-loaded security context + entry point
 plan.md              methodology (source of truth): init, recon, delegation, deliverable
 _scope-guard.md      shared hard limits, OPSEC tagging, autonomy, language rule
 AGENTS.md            machine-readable agent catalog + routing
-*.md                 the 12 specialist agents
+*.md                 the 15 specialist agents
 templates/           AGENT_TEMPLATE.md · FINDING_CARD.md
 tools/               banner.sh · banner.txt · check_env.sh · install_tools.sh
 *.example.*          scope / credentials / env templates
