@@ -1,0 +1,10 @@
+# Normalize line endings across platforms.
+# Shell scripts MUST be LF — CRLF breaks them on Linux/macOS/WSL.
+* text=auto eol=lf
+*.sh  text eol=lf
+*.md  text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+
+# The ASCII banner is text; keep it LF and never munge it.
+tools/banner.txt text eol=lf

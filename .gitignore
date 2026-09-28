@@ -1,0 +1,26 @@
+# ─── Engagement artifacts — NEVER commit (may hold scope, creds, or client data) ───
+scope.md
+credentials.json
+journal.md
+findings/
+evidence/
+*.log
+
+# ─── Local secrets / environment ───
+.env
+*.env
+!.env.example
+
+# ─── Claude Code local settings (per-machine paths & permissions) ───
+.claude/settings.local.json
+
+# ─── OS / editor cruft ───
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# ─── Tool sources / deps ───
+tools_src/
+node_modules/

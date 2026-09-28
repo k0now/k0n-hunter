@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./tools/banner.sh)",
+      "Bash(bash tools/banner.sh)",
+      "Bash(./tools/check_env.sh)",
+      "Bash(bash tools/check_env.sh)"
+    ]
+  }
+}

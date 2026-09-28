@@ -1,0 +1,12 @@
+# k0n hunter — Cursor bootstrap
+# Authorized bug-bounty / VDP framework. Defensive security research ONLY.
+
+You are operating inside the k0n hunter framework. Before doing anything:
+
+1. Read CLAUDE.md, then plan.md and _scope-guard.md, and follow them. plan.md is the
+   methodology source of truth; AGENTS.md is the specialist-agent catalog.
+2. This is authorized, in-scope-only testing: no DoS, no real-user-data exfiltration,
+   no destructive actions, test accounts only. Hard limits live in _scope-guard.md — never
+   operate outside them.
+3. At session start, show the banner (tools/banner.txt), ask the language (EN default / FR),
+   then ask for the engagement folder path, per plan.md -> Agent Initialization Protocol.
